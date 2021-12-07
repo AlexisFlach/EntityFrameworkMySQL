@@ -9,6 +9,7 @@ namespace EFTutorial.Data
             
         }
 
-        public DbSet<Vinyl> Vinyl { get; set; } 
+        public DbSet<Vinyl> Vinyl { get; set; }
+        public DbSet<Artist> Artist { get; set; }
     }
 }

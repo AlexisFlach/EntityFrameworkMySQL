@@ -1,4 +1,5 @@
 ﻿using EFTutorial.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,13 @@ namespace EFTutorial.Repository
 
         public IEnumerable<Vinyl> GetVinyls()
         {
-            return _context.Vinyl.ToList();
+           return _context.Vinyl.Include(v => v.Artist).ToList();
         }
 
-        public Vinyl GetVinyl(int id)
+            public Vinyl GetVinyl(int id)
         {
-            return _context.Find<Vinyl>(id);
+            return _context.Vinyl.Include(v => v.Artist).FirstOrDefault(x => x.Id == id);
+
         }
         public bool AddVinyl(Vinyl v)
         {   
@@ -49,7 +51,6 @@ namespace EFTutorial.Repository
             {
                 return false;
                 throw new Exception(e.Message);
-                
             }
             return true;
         }

@@ -1,4 +1,5 @@
 ﻿using EFTutorial.Data;
+using EFTutorial.Dtos;
 using EFTutorial.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,10 +42,12 @@ namespace EFTutorial.Controllers
         [HttpPost]
         public ActionResult AddVinyl(Vinyl v)
         {
+          
+
             bool res = _repository.AddVinyl(v);
             if(!res)
                 return BadRequest();
-            return CreatedAtAction(nameof(AddVinyl), new {id = v.Id}, v);
+            return CreatedAtAction(nameof(AddVinyl), v);
         }
         [HttpPut("{id}")]
 
