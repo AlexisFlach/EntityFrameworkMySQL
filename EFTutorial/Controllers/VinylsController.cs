@@ -25,5 +25,56 @@ namespace EFTutorial.Controllers
     {
         return _repository.GetVinyls();
     }
-}
+
+        [HttpGet("{id}")]
+
+        public ActionResult<Vinyl> GetVinyl(int id)
+        {
+            var vinyl = _repository.GetVinyl(id);
+
+            if(vinyl == null)
+                return NotFound();
+
+            return Ok(vinyl);
+        }
+
+        [HttpPost]
+        public ActionResult AddVinyl(Vinyl v)
+        {
+            bool res = _repository.AddVinyl(v);
+            if(!res)
+                return BadRequest();
+            return CreatedAtAction(nameof(AddVinyl), new {id = v.Id}, v);
+        }
+        [HttpPut("{id}")]
+
+        public ActionResult UpdateItem(Vinyl v, int id)
+        {
+            var existingVinyl = _repository.GetVinyl(id);
+
+            if (existingVinyl == null)
+                return NotFound();
+
+            existingVinyl.Title = v.Title;
+            bool res = _repository.UpdateVinyl(existingVinyl);
+            if (!res)
+                return BadRequest();
+            return Ok();
+        }
+        [HttpDelete("{id}")]
+
+        public ActionResult DeleteVinyl(int id)
+        {
+            var vinyl = GetVinyl(id);
+            if (vinyl == null)
+                return NotFound();
+
+            bool res = _repository.DeleteVinyl(id);
+
+            if (!res)
+                return BadRequest();
+
+            return NoContent();
+        }
+    }
 }
